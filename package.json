@@ -1,13 +1,13 @@
 {
   "name": "@almuz/vue-tel-input",
-  "version": "1.0.0",
-  "description": "International Telephone Input with Vue",
-  "author": "Steven Dao <iamstevendao@gmail.com>",
+  "version": "1.0.1",
+  "description": "Improved International Telephone Input with Vue.",
+  "author": "almuz",
   "license": "MIT",
-  "homepage": "https://educationlink.github.io/vue-tel-input/",
+  "homepage": "https://github.com/AlMuz/vue-tel-input",
   "repository": {
     "type": "git",
-    "url": "https://github.com/EducationLink/vue-tel-input.git"
+    "url": "git+https://github.com/AlMuz/vue-tel-input.git"
   },
   "scripts": {
     "dev": "vue-cli-service serve",
@@ -46,6 +46,7 @@
     "eslint-plugin-vue": "^9.28.0",
     "lint-staged": "^8.2.1",
     "vue": "^2.7.16",
+    "vue-jest": "^3.0.7",
     "vue-template-compiler": "^2.7.16"
   },
   "browserslist": [

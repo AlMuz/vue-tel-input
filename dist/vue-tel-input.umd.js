@@ -7535,10 +7535,6 @@ function _objectSpread2(e) {
   return e;
 }
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.promise.js
-var es_promise = __webpack_require__(3362);
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.to-string.js
-var es_regexp_to_string = __webpack_require__(8781);
 ;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
 function _arrayWithHoles(r) {
   if (Array.isArray(r)) return r;
@@ -7591,6 +7587,8 @@ var es_function_name = __webpack_require__(2010);
 var es_regexp_exec = __webpack_require__(7495);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.test.js
 var es_regexp_test = __webpack_require__(906);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.to-string.js
+var es_regexp_to_string = __webpack_require__(8781);
 ;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
 function _arrayLikeToArray(r, a) {
   (null == a || a > r.length) && (a = r.length);
@@ -7674,21 +7672,6 @@ var allCountries = [['Afghanistan (‫افغانستان‬‎)', 'af', '93'], [
 
 
 
-
-
-
-function getCountry() {
-  return fetch('https://ip2c.org/s').then(function (response) {
-    return response.text();
-  }).then(function (response) {
-    var result = (response || '').toString();
-    if (!result || result[0] !== '1') {
-      throw new Error('unable to fetch the country');
-    }
-    return result.substr(2, 2);
-  });
-}
-
 // Credits: http://blog.vishalon.net/index.php/javascript-getting-and-setting-caret-position-in-textarea/
 function setCaretPosition(ctrl, pos) {
   // Modern browsers
@@ -7712,7 +7695,6 @@ var defaultOptions = {
   customValidate: false,
   defaultCountry: '',
   disabled: false,
-  disabledFetchingCountry: false,
   dropdownOptions: {},
   enabledCountryCode: false,
   enabledFlags: true,
@@ -7735,7 +7717,7 @@ var defaultOptions = {
 /* harmony default export */ var utils = ({
   options: _objectSpread2({}, defaultOptions)
 });
-;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./src/components/vue-tel-input.vue?vue&type=template&id=1ce824ab
+;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./src/components/vue-tel-input.vue?vue&type=template&id=d95e6532
 
 var render = function render() {
   var _vm = this,
@@ -7845,7 +7827,7 @@ var render = function render() {
 };
 var staticRenderFns = [];
 
-;// CONCATENATED MODULE: ./src/components/vue-tel-input.vue?vue&type=template&id=1ce824ab
+;// CONCATENATED MODULE: ./src/components/vue-tel-input.vue?vue&type=template&id=d95e6532
 
 ;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 
@@ -7891,6 +7873,8 @@ var es_array_find_index = __webpack_require__(8980);
 var es_array_includes = __webpack_require__(4423);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.assign.js
 var es_object_assign = __webpack_require__(9085);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.promise.js
+var es_promise = __webpack_require__(3362);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.constructor.js
 var es_regexp_constructor = __webpack_require__(4864);
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.dot-all.js
@@ -11400,12 +11384,6 @@ var events = ['keyup', 'keydown'];
         return getDefault('disabled');
       }
     },
-    disabledFetchingCountry: {
-      type: Boolean,
-      default: function _default() {
-        return getDefault('disabledFetchingCountry');
-      }
-    },
     dropdownOptions: {
       type: Object,
       default: function _default() {
@@ -11604,9 +11582,6 @@ var events = ['keyup', 'keydown'];
         isValid: data.valid,
         country: this.activeCountry
       });
-
-      // console.log(data)
-
       return data;
     },
     phoneText: function phoneText() {
@@ -11649,8 +11624,6 @@ var events = ['keyup', 'keydown'];
       } else if (newValue) {
         if (newValue[0] === '+') {
           var _parsePhoneNumber;
-          // console.log(newValue)
-
           var code = ((_parsePhoneNumber = exports_parsePhoneNumber_parsePhoneNumber(newValue.replaceAll(' ', ''))) === null || _parsePhoneNumber === void 0 ? void 0 : _parsePhoneNumber.country) || '';
           if (code) {
             this.activeCountry = this.findCountry(code) || this.activeCountry;
@@ -11718,7 +11691,6 @@ var events = ['keyup', 'keydown'];
     resizePhoneDropdown: function resizePhoneDropdown() {
       // getting select input width
       var phoneElementWidth = this.$el.clientWidth || 440;
-      console.log(this.$el.clientWidth);
 
       // getting dropdown element directly in component
       var dropdownList = this.$el.getElementsByClassName('vti__dropdown-list')[0];
@@ -11741,28 +11713,8 @@ var events = ['keyup', 'keydown'];
           }
         }
         var fallbackCountry = _this4.findCountry(_this4.preferredCountries[0]) || _this4.filteredCountries[0];
-        /**
-         * 2. Check if fetching country based on user's IP is allowed, set it as the default country
-         */
-        if (!_this4.disabledFetchingCountry) {
-          getCountry().then(function (res) {
-            _this4.activeCountry = _this4.findCountry(res) || _this4.activeCountry;
-          }).catch(function (error) {
-            console.warn(error);
-            /**
-             * 4. Use the first country from preferred list (if available) or all countries list
-             */
-            _this4.choose(fallbackCountry);
-          }).then(function () {
-            resolve();
-          });
-        } else {
-          /**
-           * 3. Use the first country from preferred list (if available) or all countries list
-           */
-          _this4.choose(fallbackCountry);
-          resolve();
-        }
+        _this4.choose(fallbackCountry);
+        resolve();
       });
     },
     /**
@@ -11948,10 +11900,10 @@ var events = ['keyup', 'keydown'];
 });
 ;// CONCATENATED MODULE: ./src/components/vue-tel-input.vue?vue&type=script&lang=js
  /* harmony default export */ var components_vue_tel_inputvue_type_script_lang_js = (vue_tel_inputvue_type_script_lang_js); 
-;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./src/components/vue-tel-input.vue?vue&type=style&index=1&id=1ce824ab&prod&lang=css
+;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./src/components/vue-tel-input.vue?vue&type=style&index=1&id=d95e6532&prod&lang=css
 // extracted by mini-css-extract-plugin
 
-;// CONCATENATED MODULE: ./src/components/vue-tel-input.vue?vue&type=style&index=1&id=1ce824ab&prod&lang=css
+;// CONCATENATED MODULE: ./src/components/vue-tel-input.vue?vue&type=style&index=1&id=d95e6532&prod&lang=css
 
 ;// CONCATENATED MODULE: ./node_modules/@vue/vue-loader-v15/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
