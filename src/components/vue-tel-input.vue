@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import PhoneNumber from 'awesome-phonenumber'
+import parsePhoneNumber from 'libphonenumber-js/max'
 import utils, { getCountry, setCaretPosition } from '../utils'
 import clickOutside from '../directives/click-outside'
 
@@ -86,6 +86,8 @@ function getDefault(key) {
   }
   return value
 }
+
+const events = ['keyup', 'keydown']
 
 export default {
   name: 'VueTelInput',
@@ -130,10 +132,6 @@ export default {
     dropdownOptions: {
       type: Object,
       default: () => getDefault('dropdownOptions')
-    },
-    dynamicPlaceholder: {
-      type: Boolean,
-      default: () => getDefault('dynamicPlaceholder')
     },
     enabledCountryCode: {
       type: Boolean,
@@ -222,13 +220,7 @@ export default {
       if (!this.finishMounted) {
         return ''
       }
-      if (this.dynamicPlaceholder) {
-        const mode = this.mode || 'international'
-        return PhoneNumber.getExample(
-          this.activeCountry.iso2,
-          'mobile'
-        ).getNumber(mode)
-      }
+
       return this.placeholder
     },
     parsedMode() {
@@ -274,12 +266,38 @@ export default {
       return [...preferredCountries, ...this.filteredCountries]
     },
     phoneObject() {
-      const result = PhoneNumber(this.phone, this.activeCountry.iso2).toJSON()
-      Object.assign(result, {
-        isValid: result.valid,
+      const data = {
+        number: {
+          input: this.phone
+        },
+        regionCode: this.activeCountry.iso2,
+        valid: false,
+        possible: false
+      }
+
+      const rawData = parsePhoneNumber(
+        this.phone.replaceAll(' ', ''),
+        this.activeCountry.iso2
+      )
+
+      if (rawData) {
+        data.possible = rawData?.isPossible()
+        data.valid = rawData?.isValid()
+        data.type = rawData?.getType()
+        data.number.e164 = rawData?.formatInternational().replaceAll(' ', '')
+        data.number.international = rawData?.formatInternational()
+        data.number.national = rawData?.formatNational()
+        data.number.significant = rawData.nationalNumber
+      }
+
+      Object.assign(data, {
+        isValid: data.valid,
         country: this.activeCountry
       })
-      return result
+
+      // console.log(data)
+
+      return data
     },
     phoneText() {
       let key = 'input'
@@ -320,7 +338,11 @@ export default {
         })
       } else if (newValue) {
         if (newValue[0] === '+') {
-          const code = PhoneNumber(newValue).getRegionCode()
+          // console.log(newValue)
+
+          const code =
+            parsePhoneNumber(newValue.replaceAll(' ', ''))?.country || ''
+
           if (code) {
             this.activeCountry = this.findCountry(code) || this.activeCountry
           }
@@ -357,6 +379,36 @@ export default {
       .then(() => {
         this.finishMounted = true
       })
+
+    this.$nextTick(() => {
+      // on mounted - change width of dropdown
+      this.resizePhoneDropdown()
+      // also adding event listener - on window change - change dropdown
+      window.addEventListener('resize', this.resizePhoneDropdown)
+
+      const dropdown = this.$el.getElementsByClassName('vti__dropdown')[0]
+
+      // on tabbing dropdown (enter or leave) - simulate open
+      events.forEach((evt) =>
+        dropdown.addEventListener(evt, (event) => {
+          if (event.keyCode === 9) {
+            dropdown.click()
+          }
+        })
+      )
+    })
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.resizePhoneDropdown)
+    const dropdown = this.$el.getElementsByClassName('vti__dropdown')[0]
+
+    events.forEach((evt) =>
+      dropdown.removeEventListener(evt, (event) => {
+        if (event.keyCode === 9) {
+          dropdown.click()
+        }
+      })
+    )
   },
   created() {
     if (this.value) {
@@ -364,21 +416,22 @@ export default {
     }
   },
   methods: {
+    resizePhoneDropdown() {
+      // getting select input width
+      const phoneElementWidth = this.$el.clientWidth || 440
+      console.log(this.$el.clientWidth)
+
+      // getting dropdown element directly in component
+      const dropdownList =
+        this.$el.getElementsByClassName('vti__dropdown-list')[0]
+
+      // changing width
+      dropdownList.style.width = `${phoneElementWidth}px`
+    },
     initializeCountry() {
       return new Promise((resolve) => {
         /**
-         * 1. If the phone included prefix (+12), try to get the country and set it
-         */
-        if (this.phone && this.phone[0] === '+') {
-          const activeCountry = PhoneNumber(this.phone).getRegionCode()
-          if (activeCountry) {
-            this.choose(activeCountry)
-            resolve()
-            return
-          }
-        }
-        /**
-         * 2. Use default country if passed from parent
+         * 1. Use default country if passed from parent
          */
         if (this.defaultCountry) {
           const defaultCountry = this.findCountry(this.defaultCountry)
@@ -392,7 +445,7 @@ export default {
           this.findCountry(this.preferredCountries[0]) ||
           this.filteredCountries[0]
         /**
-         * 3. Check if fetching country based on user's IP is allowed, set it as the default country
+         * 2. Check if fetching country based on user's IP is allowed, set it as the default country
          */
         if (!this.disabledFetchingCountry) {
           getCountry()
@@ -411,7 +464,7 @@ export default {
             })
         } else {
           /**
-           * 4. Use the first country from preferred list (if available) or all countries list
+           * 3. Use the first country from preferred list (if available) or all countries list
            */
           this.choose(fallbackCountry)
           resolve()
@@ -459,10 +512,10 @@ export default {
         this.phoneObject.number.national
       ) {
         // Attach the current phone number with the newly selected country
-        this.phone = PhoneNumber(
+        this.phone = parsePhoneNumber(
           this.phoneObject.number.national,
           this.activeCountry.iso2
-        ).getNumber('international')
+        ).formatInternational()
       } else if (
         this.inputOptions &&
         this.inputOptions.showDialCode &&
@@ -512,6 +565,9 @@ export default {
       this.$emit('onBlur') // Deprecated
     },
     onFocus() {
+      this.$nextTick(() => {
+        setCaretPosition(this.$refs.input, this.phone.length)
+      })
       this.$emit('focus')
     },
     onEnter() {
@@ -684,7 +740,6 @@ export default {
   left: -1px;
   background-color: #fff;
   border: 1px solid #ccc;
-  width: 390px;
 }
 .vti__dropdown-list.below {
   top: 33px;

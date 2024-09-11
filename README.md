@@ -164,7 +164,6 @@ Read more on `vue-form-generator`'s [instruction page](https://icebob.gitbooks.i
   | `disabled` | `Boolean` | `false` | Disable input field |
   | `disabledFetchingCountry` | `Boolean` | `false` | Disable fetching current country based on IP address of user |
   | `dropdownOptions` | `Object` | `{ disabledDialCode: false, tabindex: 0 }` | Options for dropdown, supporting `disabledDialCode` and `tabindex`| 
-  | `dynamicPlaceholder` | `Boolean` | `false` | Placeholder as a sample phone number in the current country, available from [v3.1.1](https://github.com/EducationLink/vue-tel-input/releases/tag/v3.1.1) |
   | `enabledCountryCode` | `Boolean` | `false` | Enable country code in the input |
   | `enabledFlags` | `Boolean` | `true` | Enable flags in the input |
   | `ignoredCountries` | `Array` | `[]` | List of countries will NOT be shown on the dropdown. ie `['AU', 'BR']` |
@@ -212,7 +211,6 @@ npm install --save-dev @types/vue-tel-input
 ## Credits & Contributors
 
 **Credits**
-- Telephone Number parsing, validation by [awesome-phonenumber](https://www.npmjs.com/package/awesome-phonenumber).
 - Country Codes data from [intl-tel-input](https://github.com/jackocnr/intl-tel-input/blob/master/src/js/data.js).
 - User's country by [ip2c.org](https://ip2c.org/s), request using [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API).
 
