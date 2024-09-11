@@ -7,7 +7,7 @@ export function install(Vue, customOptions = {}) {
 
   utils.options = {
     ...defaultOptions,
-    ...customOptions,
+    ...customOptions
   };
 
   Vue.component('vue-tel-input', VueTelInput);
@@ -16,7 +16,7 @@ export function install(Vue, customOptions = {}) {
 export { VueTelInput };
 
 const plugin = {
-  install,
+  install
 };
 
 // Auto-install

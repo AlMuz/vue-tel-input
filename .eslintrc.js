@@ -1,14 +1,18 @@
-// https://eslint.org/docs/user-guide/configuring
+require('@rushstack/eslint-patch/modern-module-resolution')
 
 module.exports = {
   root: true,
   env: {
     node: true
   },
-  extends: ['plugin:vue/essential', '@vue/airbnb', 'plugin:jest/recommended'],
+  extends: [
+    'plugin:vue/essential',
+    '@vue/eslint-config-airbnb',
+    'plugin:jest/recommended'
+  ],
   plugins: ['vue'],
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: '@babel/eslint-parser'
   },
   // add your custom rules here
   rules: {
@@ -35,6 +39,10 @@ module.exports = {
         allow: ['__vueClickOutside__']
       }
     ],
-    'jest/prefer-to-have-length': 'warn'
+    'jest/prefer-to-have-length': 'warn',
+    'vuejs-accessibility/anchor-has-content': 'off',
+    'vuejs-accessibility/alt-text': 'off',
+    'vuejs-accessibility/click-events-have-key-events': 'off',
+    'vuejs-accessibility/no-autofocus': 'off'
   }
 }

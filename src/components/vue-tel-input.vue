@@ -1,8 +1,8 @@
 <template>
-  <div :class="['vue-tel-input', wrapperClasses, { disabled: disabled }]">
+  <div :class="['vue-tel-input', wrapperClasses, { disabled }]">
     <div
       v-click-outside="clickedOutside"
-      :class="['vti__dropdown', { open: open }]"
+      :class="['vti__dropdown', { open }]"
       :tabindex="
         dropdownOptions && dropdownOptions.tabindex
           ? dropdownOptions.tabindex
