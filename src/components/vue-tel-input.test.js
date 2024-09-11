@@ -3,12 +3,6 @@ import VueTelInput from './vue-tel-input.vue'
 import * as utils from '../utils'
 
 describe('vue-tel-input', () => {
-  beforeEach(() => {
-    jest
-      .spyOn(utils, 'getCountry')
-      .mockImplementation(() => Promise.resolve('au'))
-  })
-
   it('renders without crash', () => {
     const wrapper = shallowMount(VueTelInput)
 
@@ -18,18 +12,11 @@ describe('vue-tel-input', () => {
 })
 
 describe('Props', () => {
-  beforeEach(() => {
-    jest
-      .spyOn(utils, 'getCountry')
-      .mockImplementation(() => Promise.resolve('au'))
-  })
-
   describe(':all-countries', () => {
     it('overrides all pre-defined countries', () => {
       const wrapper = shallowMount(VueTelInput, {
         propsData: {
-          allCountries: [{ iso2: 'AU' }],
-          disabledFetchingCountry: true
+          allCountries: [{ iso2: 'AU' }]
         }
       })
 
@@ -85,22 +72,6 @@ describe('Props', () => {
 
       wrapper.find('.vti__dropdown').trigger('click')
       expect(wrapper.vm.open).toBe(false)
-    })
-  })
-  describe(':disabled-fetching-country', () => {
-    it("doesn't fetch the country by IP", () => {
-      utils.getCountry.mockReset()
-      const wrapper = shallowMount(VueTelInput, {
-        propsData: {
-          disabledFetchingCountry: true,
-          preferredCountries: ['AU']
-        }
-      })
-
-      expect(utils.getCountry).not.toHaveBeenCalled()
-      expect(wrapper.find('.vti__selection > .vti__flag').classes()).toContain(
-        'au'
-      )
     })
   })
   describe(':dropdown-options', () => {

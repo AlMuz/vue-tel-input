@@ -76,7 +76,7 @@
 
 <script>
 import parsePhoneNumber from 'libphonenumber-js/max'
-import utils, { getCountry, setCaretPosition } from '../utils'
+import utils, { setCaretPosition } from '../utils'
 import clickOutside from '../directives/click-outside'
 
 function getDefault(key) {
@@ -124,10 +124,6 @@ export default {
     disabled: {
       type: Boolean,
       default: () => getDefault('disabled')
-    },
-    disabledFetchingCountry: {
-      type: Boolean,
-      default: () => getDefault('disabledFetchingCountry')
     },
     dropdownOptions: {
       type: Object,
@@ -295,8 +291,6 @@ export default {
         country: this.activeCountry
       })
 
-      // console.log(data)
-
       return data
     },
     phoneText() {
@@ -338,8 +332,6 @@ export default {
         })
       } else if (newValue) {
         if (newValue[0] === '+') {
-          // console.log(newValue)
-
           const code =
             parsePhoneNumber(newValue.replaceAll(' ', ''))?.country || ''
 
@@ -419,7 +411,6 @@ export default {
     resizePhoneDropdown() {
       // getting select input width
       const phoneElementWidth = this.$el.clientWidth || 440
-      console.log(this.$el.clientWidth)
 
       // getting dropdown element directly in component
       const dropdownList =
@@ -444,31 +435,9 @@ export default {
         const fallbackCountry =
           this.findCountry(this.preferredCountries[0]) ||
           this.filteredCountries[0]
-        /**
-         * 2. Check if fetching country based on user's IP is allowed, set it as the default country
-         */
-        if (!this.disabledFetchingCountry) {
-          getCountry()
-            .then((res) => {
-              this.activeCountry = this.findCountry(res) || this.activeCountry
-            })
-            .catch((error) => {
-              console.warn(error)
-              /**
-               * 4. Use the first country from preferred list (if available) or all countries list
-               */
-              this.choose(fallbackCountry)
-            })
-            .then(() => {
-              resolve()
-            })
-        } else {
-          /**
-           * 3. Use the first country from preferred list (if available) or all countries list
-           */
-          this.choose(fallbackCountry)
-          resolve()
-        }
+
+        this.choose(fallbackCountry)
+        resolve()
       })
     },
     /**

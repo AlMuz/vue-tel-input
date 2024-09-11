@@ -1,29 +1,19 @@
 <template>
   <div id="app">
     <template v-if="!showPlayground">
-      <a href="https://www.npmjs.com/package/vue-tel-input">
-        <img src="https://img.shields.io/npm/dt/vue-tel-input.svg" />
+      <a href="https://www.npmjs.com/package/@almuz/vue-tel-input">
+        <img src="https://img.shields.io/npm/dt/@almuz/vue-tel-input.svg" />
       </a>
       &nbsp;
-      <a href="https://github.com/EducationLink/vue-tel-input">
+      <a href="https://github.com/almuz/vue-tel-input">
         <img
-          src="https://img.shields.io/github/stars/EducationLink/vue-tel-input.svg"
+          src="https://img.shields.io/github/stars/almuz/vue-tel-input.svg"
         />
       </a>
-      <h2 style="color: #999">
-        made with &#x2764; by some
-        <a
-          style="color: inherit"
-          href="https://github.com/EducationLink/vue-tel-input/graphs/contributors"
-        >
-          awesome humans
-        </a>
-        .
-      </h2>
       <div style="width: 500px; margin: 20px auto">
         <vue-tel-input
           :preferred-countries="['us', 'gb', 'ua']"
-          :valid-characters-only="true"
+          valid-characters-only
           @input="onInput"
         />
       </div>
@@ -49,11 +39,9 @@
       View
       <span style="font-size: 15px">
         [
-        <a href="https://github.com/EducationLink/vue-tel-input">github</a>
+        <a href="https://github.com/almuz/vue-tel-input">github</a>
         ,
-        <a href="https://github.com/EducationLink/vue-tel-input/releases">
-          changelog
-        </a>
+        <a href="https://github.com/almuz/vue-tel-input/releases">changelog</a>
         ,
         <a href="https://www.npmjs.com/package/vue-tel-input">npm</a>
         ,

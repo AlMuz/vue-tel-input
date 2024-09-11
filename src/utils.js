@@ -1,19 +1,5 @@
 import allCountries from './assets/all-countries'
 
-export function getCountry() {
-  return fetch('https://ip2c.org/s')
-    .then((response) => response.text())
-    .then((response) => {
-      const result = (response || '').toString()
-
-      if (!result || result[0] !== '1') {
-        throw new Error('unable to fetch the country')
-      }
-
-      return result.substr(2, 2)
-    })
-}
-
 // Credits: http://blog.vishalon.net/index.php/javascript-getting-and-setting-caret-position-in-textarea/
 export function setCaretPosition(ctrl, pos) {
   // Modern browsers
@@ -38,7 +24,6 @@ export const defaultOptions = {
   customValidate: false,
   defaultCountry: '',
   disabled: false,
-  disabledFetchingCountry: false,
   dropdownOptions: {},
   enabledCountryCode: false,
   enabledFlags: true,
