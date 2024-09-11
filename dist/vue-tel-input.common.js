@@ -1,14 +1,4 @@
-(function webpackUniversalModuleDefinition(root, factory) {
-	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory();
-	else if(typeof define === 'function' && define.amd)
-		define([], factory);
-	else if(typeof exports === 'object')
-		exports["vue-tel-input"] = factory();
-	else
-		root["vue-tel-input"] = factory();
-})((typeof self !== 'undefined' ? self : this), function() {
-return /******/ (function() { // webpackBootstrap
+/******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 5003:
@@ -7735,7 +7725,7 @@ var defaultOptions = {
 /* harmony default export */ var utils = ({
   options: _objectSpread2({}, defaultOptions)
 });
-;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./src/components/vue-tel-input.vue?vue&type=template&id=1ce824ab
+;// CONCATENATED MODULE: ./node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./src/components/vue-tel-input.vue?vue&type=template&id=1ce824ab
 
 var render = function render() {
   var _vm = this,
@@ -11315,7 +11305,7 @@ function getParents(node, memo) {
     el.__vueClickOutside__ = null;
   }
 });
-;// CONCATENATED MODULE: ./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./src/components/vue-tel-input.vue?vue&type=script&lang=js
+;// CONCATENATED MODULE: ./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[1]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./src/components/vue-tel-input.vue?vue&type=script&lang=js
 
 
 
@@ -11948,7 +11938,7 @@ var events = ['keyup', 'keydown'];
 });
 ;// CONCATENATED MODULE: ./src/components/vue-tel-input.vue?vue&type=script&lang=js
  /* harmony default export */ var components_vue_tel_inputvue_type_script_lang_js = (vue_tel_inputvue_type_script_lang_js); 
-;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./src/components/vue-tel-input.vue?vue&type=style&index=1&id=1ce824ab&prod&lang=css
+;// CONCATENATED MODULE: ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-12.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-12.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-12.use[2]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./src/components/vue-tel-input.vue?vue&type=style&index=1&id=1ce824ab&prod&lang=css
 // extracted by mini-css-extract-plugin
 
 ;// CONCATENATED MODULE: ./src/components/vue-tel-input.vue?vue&type=style&index=1&id=1ce824ab&prod&lang=css
@@ -12107,8 +12097,7 @@ if (GlobalVue) {
 
 
 }();
-/******/ 	return __webpack_exports__;
+module.exports = __webpack_exports__;
 /******/ })()
 ;
-});
-//# sourceMappingURL=vue-tel-input.umd.js.map
+//# sourceMappingURL=vue-tel-input.common.js.map
