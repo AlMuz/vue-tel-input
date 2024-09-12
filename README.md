@@ -107,11 +107,6 @@ Improved International Telephone Input with Vue.
 | ------------ | ------------------------------------------------------------------ | ----- |
 | `arrow-icon` | Replace the arrow next to the flag with a component of your choice |       |
 
-## Highlights & Credits
-
-- Telephone Number parsing, validation by [libphonenumber-js](https://catamphetamine.github.io/libphonenumber-js/).
-- Country Codes data from [intl-tel-input](https://github.com/jackocnr/intl-tel-input/blob/master/src/js/data.js).
-
 ## Demo Usage
 
 ```bash

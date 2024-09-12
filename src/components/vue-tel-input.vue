@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import parsePhoneNumber from 'libphonenumber-js/max'
+import { parsePhoneNumber } from 'awesome-phonenumber'
 import utils, { setCaretPosition } from '../utils'
 import clickOutside from '../directives/click-outside'
 
@@ -262,36 +262,16 @@ export default {
       return [...preferredCountries, ...this.filteredCountries]
     },
     phoneObject() {
-      const data = {
-        number: {
-          input: this.phone
-        },
-        regionCode: this.activeCountry.iso2,
-        valid: false,
-        possible: false
-      }
+      const result = parsePhoneNumber(this.phone.replaceAll(' ', ''), {
+        regionCode: this.activeCountry.iso2
+      })
 
-      const rawData = parsePhoneNumber(
-        this.phone.replaceAll(' ', ''),
-        this.activeCountry.iso2
-      )
-
-      if (rawData) {
-        data.possible = rawData?.isPossible()
-        data.valid = rawData?.isValid()
-        data.type = rawData?.getType()
-        data.number.e164 = rawData?.formatInternational().replaceAll(' ', '')
-        data.number.international = rawData?.formatInternational()
-        data.number.national = rawData?.formatNational()
-        data.number.significant = rawData.nationalNumber
-      }
-
-      Object.assign(data, {
-        isValid: data.valid,
+      Object.assign(result, {
+        isValid: result.valid,
         country: this.activeCountry
       })
 
-      return data
+      return result
     },
     phoneText() {
       let key = 'input'
@@ -333,7 +313,7 @@ export default {
       } else if (newValue) {
         if (newValue[0] === '+') {
           const code =
-            parsePhoneNumber(newValue.replaceAll(' ', ''))?.country || ''
+            parsePhoneNumber(newValue.replaceAll(' ', ''))?.regionCode || ''
 
           if (code) {
             this.activeCountry = this.findCountry(code) || this.activeCountry
@@ -484,7 +464,7 @@ export default {
         this.phone = parsePhoneNumber(
           this.phoneObject.number.national,
           this.activeCountry.iso2
-        ).formatInternational()
+        ).number.international
       } else if (
         this.inputOptions &&
         this.inputOptions.showDialCode &&
