@@ -1,6 +1,6 @@
 {
   "name": "@almuz/vue-tel-input",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Improved International Telephone Input with Vue.",
   "author": "almuz",
   "license": "MIT",
@@ -13,7 +13,7 @@
     "dev": "vue-cli-service serve",
     "analyze": "vue-cli-service build --analyze",
     "demo": "vue-cli-service build",
-    "build": "vue-cli-service build --target lib src/index.js --dest dist",
+    "build": "vue-cli-service build --target lib src/index.js --dest dist  && rm ./dist/demo.html",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },
@@ -26,8 +26,7 @@
   "dependencies": {
     "@babel/runtime": "^7.25.6",
     "awesome-phonenumber": "^7.0.1",
-    "core-js": "^3.38.1",
-    "vue-cli-plugin-webpack-bundle-analyzer": "^4.0.0"
+    "core-js": "^3.38.1"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.25.1",
